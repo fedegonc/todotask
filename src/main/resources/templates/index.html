@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Hola Mundo</title>
+    <link rel="stylesheet" th:href="@{/css/index.css}">
+</head>
+<body>
+<div class="container">
+    <h1>Hola Mundo</h1>
+    <p>Agrega tareas y míralas listadas abajo.</p>
+
+    <form class="todo-form" th:action="@{/todo}" method="post">
+        <div class="field">
+            <label for="title">Título</label>
+            <input id="title" name="title" type="text" placeholder="Ej. Comprar leche" required>
+        </div>
+        <div class="field">
+            <label for="description">Descripción</label>
+            <textarea id="description" name="description" rows="3" placeholder="Opcional"></textarea>
+        </div>
+        <button type="submit">Guardar</button>
+    </form>
+
+    <section class="todo-list">
+        <h2>Tareas</h2>
+        <p th:if="${tasks.isEmpty()}">No hay tareas todavía.</p>
+        <ul th:if="${!tasks.isEmpty()}">
+            <li th:each="task : ${tasks}">
+                <span class="title" th:text="${task.title}"></span>
+                <span class="description" th:text="${task.description ?: '(sin descripción)'}"></span>
+            </li>
+        </ul>
+    </section>
+</div>
+</body>
+</html>
