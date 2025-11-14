@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layouts/base}">
+<head>
+    <title layout:fragment="title" th:text="${card.title} + ' | Federico Goncalvez'">Servicio</title>
+</head>
+<section layout:fragment="content" class="service-detail">
+    <header class="service-detail__header">
+        <h1 th:text="${card.title}">Título del servicio</h1>
+        <a class="service-detail__back" th:href="@{/}">Volver al inicio</a>
+    </header>
+
+    <section class="service-detail__body">
+        <p th:text="${card.description}">Descripción del servicio.</p>
+    </section>
+</section>
+</html>

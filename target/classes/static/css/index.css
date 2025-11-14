@@ -1,28 +1,160 @@
+@font-face {
+    font-family: "Jadyn Maria Free";
+    src: url("../fonts/jadyn-maria-free.regular.otf") format("opentype");
+    font-weight: normal;
+    font-style: normal;
+}
+
+.cards__empty {
+    margin: 0;
+    padding: 2rem 3rem;
+    font-size: 1rem;
+    color: rgba(45, 52, 54, 0.75);
+}
+
 body {
-    font-family: "Segoe UI", Arial, sans-serif;
-    background-color: #f5f6fa;
+    font-family: "Lora", "Inter", "Segoe UI", Arial, serif;
+    background-color: #fefefe;
     color: #2d3436;
     margin: 0;
+    min-height: 100vh;
+}
+
+.service-detail {
+    max-width: 720px;
+    margin: 0 auto;
+    padding: 3rem 2.5rem 4rem;
+    display: grid;
+    gap: 2rem;
+}
+
+.service-detail__header {
     display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 100vh;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 1.5rem;
 }
 
-.container {
-    text-align: center;
-    background: white;
-    padding: 2rem 3rem;
-    border-radius: 12px;
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
-}
-
-h1 {
-    font-size: 2.5rem;
-    margin-bottom: 0.5rem;
-}
-
-p {
-    font-size: 1.1rem;
+.service-detail__header h1 {
     margin: 0;
+    font-size: 2.3rem;
+    font-weight: 600;
+    letter-spacing: 0.04em;
+}
+
+.service-detail__back {
+    color: #4c6ef5;
+    text-decoration: none;
+    font-weight: 600;
+    margin-top: 0.25rem;
+}
+
+.service-detail__back:hover {
+    text-decoration: underline;
+}
+
+.service-detail__body {
+    border: 1px solid rgba(43, 53, 60, 0.18);
+    border-radius: 0;
+    padding: 2rem;
+    background-color: #ffffff;
+}
+
+.service-detail__body p {
+    margin: 0;
+    font-size: 1.05rem;
+    line-height: 1.75;
+    color: rgba(45, 52, 54, 0.9);
+}
+
+.brand {
+    display: flex;
+    align-items: flex-start;
+    padding: 2rem 3rem;
+}
+
+.brand__name {
+    font-size: 2rem;
+    font-family: "Jadyn Maria Free", "Lora", "Inter", "Segoe UI", Arial, serif;
+    font-weight: 400;
+    letter-spacing: 0.05em;
+    color: #1f2d3d;
+}
+
+.hero {
+    margin: 0 0 0 0;
+    
+    overflow: hidden;
+    background: url("../img/textura-madera.jpg") center/cover no-repeat;
+    color: #fff;
+}
+
+.hero__content {
+    backdrop-filter: brightness(0.6);
+    padding: 3rem;
+}
+
+.hero__headline {
+    margin: 0;
+    font-size: 2.5rem;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    
+}
+
+.cards {
+    padding: 3rem;
+}
+
+.cards__grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 1.5rem;
+}
+
+
+.card {
+    border: 1px solid rgba(43, 53, 60, 0.2);
+    border-radius: 0;
+    padding: 1.75rem;
+    text-decoration: none;
+    color: inherit;
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+    transition: border-color 0.2s ease, transform 0.2s ease;
+}
+
+.card:hover,
+.card:focus {
+    border-color: rgba(43, 53, 60, 0.4);
+    transform: translateY(-4px);
+}
+
+.card__title {
+    margin: 0 0 0.75rem;
+    font-size: 1.25rem;
+    font-weight: 600;
+    letter-spacing: 0.03em;
+}
+
+.card__description {
+    margin: 0;
+    font-size: 0.95rem;
+    line-height: 1.5;
+    color: rgba(45, 52, 54, 0.85);
+}
+
+.site-footer {
+    background-color: #111;
+    color: #f1f1f1;
+    padding: 1.25rem 3rem;
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+}
+
+.site-footer__text {
+    margin: 0;
+    font-size: 0.9rem;
 }
