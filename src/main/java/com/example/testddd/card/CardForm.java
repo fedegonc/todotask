@@ -2,6 +2,7 @@ package com.example.testddd.card;
 
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
+import org.springframework.web.multipart.MultipartFile;
 
 public class CardForm {
 
@@ -16,18 +17,24 @@ public class CardForm {
     @NotBlank(message = "El enlace es obligatorio")
     private String link;
 
+    @Size(max = 512, message = "La URL de la imagen debe tener hasta 512 caracteres")
+    private String imageUrl;
+
+    private transient MultipartFile imageFile;
+
     public CardForm() {
     }
 
-    public CardForm(Long id, String title, String description, String link) {
+    public CardForm(Long id, String title, String description, String link, String imageUrl) {
         this.id = id;
         this.title = title;
         this.description = description;
         this.link = link;
+        this.imageUrl = imageUrl;
     }
 
     public static CardForm from(Card card) {
-        return new CardForm(card.getId(), card.getTitle(), card.getDescription(), card.getLink());
+        return new CardForm(card.getId(), card.getTitle(), card.getDescription(), card.getLink(), card.getImageUrl());
     }
 
     public Long getId() {
@@ -60,5 +67,21 @@ public class CardForm {
 
     public void setLink(String link) {
         this.link = link;
+    }
+
+    public String getImageUrl() {
+        return imageUrl;
+    }
+
+    public void setImageUrl(String imageUrl) {
+        this.imageUrl = imageUrl;
+    }
+
+    public MultipartFile getImageFile() {
+        return imageFile;
+    }
+
+    public void setImageFile(MultipartFile imageFile) {
+        this.imageFile = imageFile;
     }
 }

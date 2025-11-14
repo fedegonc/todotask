@@ -1,12 +1,11 @@
 C:\Users\gonca\OneDrive\Desktop\testddd\src\main\java\com\example\testddd\card\Card.java
 C:\Users\gonca\OneDrive\Desktop\testddd\src\main\java\com\example\testddd\card\CardController.java
 C:\Users\gonca\OneDrive\Desktop\testddd\src\main\java\com\example\testddd\card\CardRepository.java
-C:\Users\gonca\OneDrive\Desktop\testddd\src\main\java\com\example\testddd\todo\TodoTask.java
 C:\Users\gonca\OneDrive\Desktop\testddd\src\main\java\com\example\testddd\DataInitializer.java
-C:\Users\gonca\OneDrive\Desktop\testddd\src\main\java\com\example\testddd\todo\TodoRestController.java
-C:\Users\gonca\OneDrive\Desktop\testddd\src\main\java\com\example\testddd\todo\TodoWebController.java
+C:\Users\gonca\OneDrive\Desktop\testddd\src\main\java\com\example\testddd\home\HomeController.java
 C:\Users\gonca\OneDrive\Desktop\testddd\src\main\java\com\example\testddd\TestdddApplication.java
 C:\Users\gonca\OneDrive\Desktop\testddd\src\main\java\com\example\testddd\admin\AdminController.java
-C:\Users\gonca\OneDrive\Desktop\testddd\src\main\java\com\example\testddd\todo\TodoTaskRepository.java
+C:\Users\gonca\OneDrive\Desktop\testddd\src\main\java\com\example\testddd\config\CloudinaryConfig.java
+C:\Users\gonca\OneDrive\Desktop\testddd\src\main\java\com\example\testddd\image\CloudinaryImageService.java
 C:\Users\gonca\OneDrive\Desktop\testddd\src\main\java\com\example\testddd\card\CardForm.java
 C:\Users\gonca\OneDrive\Desktop\testddd\src\main\java\com\example\testddd\config\SecurityConfig.java

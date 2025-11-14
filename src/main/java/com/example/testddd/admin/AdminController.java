@@ -3,7 +3,10 @@ package com.example.testddd.admin;
 import com.example.testddd.card.Card;
 import com.example.testddd.card.CardForm;
 import com.example.testddd.card.CardRepository;
+import com.example.testddd.image.CloudinaryImageService;
 import jakarta.validation.Valid;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
@@ -16,10 +19,14 @@ import org.springframework.web.server.ResponseStatusException;
 @RequestMapping("/admin")
 public class AdminController {
 
-    private final CardRepository cardRepository;
+    private static final Logger log = LoggerFactory.getLogger(AdminController.class);
 
-    public AdminController(CardRepository cardRepository) {
+    private final CardRepository cardRepository;
+    private final CloudinaryImageService imageService;
+
+    public AdminController(CardRepository cardRepository, CloudinaryImageService imageService) {
         this.cardRepository = cardRepository;
+        this.imageService = imageService;
     }
 
     @ModelAttribute("cardForm")
@@ -62,34 +69,53 @@ public class AdminController {
             model.addAttribute("editing", false);
             return "admin/index";
         }
-        Card card = new Card(form.getTitle(), form.getDescription(), form.getLink());
+        String imageUrl = form.getImageUrl();
+        try {
+            String uploadedUrl = imageService.upload(form.getImageFile());
+            if (uploadedUrl != null) {
+                imageUrl = uploadedUrl;
+            }
+        } catch (Exception e) {
+            log.error("Error subiendo la imagen para nueva tarjeta", e);
+        }
+        Card card = new Card(form.getTitle(), form.getDescription(), form.getLink(), imageUrl);
         cardRepository.save(card);
         return "redirect:/admin";
     }
-@PutMapping("/cards/{id}")
-public String updateCard(@PathVariable long id,
-                         @Valid @ModelAttribute("cardForm") CardForm form,
-                         BindingResult bindingResult,
-                         Model model) {
+    @PutMapping("/cards/{id}")
+    public String updateCard(@PathVariable long id,
+                             @Valid @ModelAttribute("cardForm") CardForm form,
+                             BindingResult bindingResult,
+                             Model model) {
 
-    if (bindingResult.hasErrors()) {
-        form.setId(id);
-        model.addAttribute("cards", cardRepository.findAll(Sort.by("title")));
-        model.addAttribute("editing", true);
-        return "admin/index";
+        if (bindingResult.hasErrors()) {
+            form.setId(id);
+            model.addAttribute("cards", cardRepository.findAll(Sort.by("title")));
+            model.addAttribute("editing", true);
+            return "admin/index";
+        }
+
+        Card card = cardRepository.findById(id)
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Servicio no encontrado"));
+
+        card.rename(form.getTitle());
+        card.changeDescription(form.getDescription());
+        card.changeLink(form.getLink());
+
+        String imageUrl = form.getImageUrl();
+        try {
+            String uploadedUrl = imageService.upload(form.getImageFile());
+            if (uploadedUrl != null) {
+                imageUrl = uploadedUrl;
+            }
+        } catch (Exception e) {
+            log.error("Error subiendo la imagen al actualizar tarjeta {}", id, e);
+        }
+        card.changeImage(imageUrl);
+
+        cardRepository.save(card);
+        return "redirect:/admin";
     }
-
-    Card card = cardRepository.findById(id)
-            .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Servicio no encontrado"));
-
-    // >>> Ahora delegamos en la ENTIDAD rica
-    card.rename(form.getTitle());
-    card.changeDescription(form.getDescription());
-    card.changeLink(form.getLink());
-
-    cardRepository.save(card);
-    return "redirect:/admin";
-}
 
     @DeleteMapping("/cards/{id}")
     public String deleteCard(@PathVariable long id) {

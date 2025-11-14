@@ -12,6 +12,9 @@
     </header>
 
     <section class="service-detail__body">
+        <div class="service-detail__media" th:if="${card.imageUrl}">
+            <img th:src="${card.imageUrl}" th:alt="${card.title}">
+        </div>
         <p th:text="${card.description}">Descripción del servicio.</p>
     </section>
 </section>

@@ -23,16 +23,25 @@ public class Card {
     @Column(nullable = false)
     private String link;
 
+    @Column(length = 512)
+    private String imageUrl;
+
     protected Card() {}
 
     public Card(String title, String description, String link) {
+        this(title, description, link, null);
+    }
+
+    public Card(String title, String description, String link, String imageUrl) {
         validateTitle(title);
         validateDescription(description);
         validateLink(link);
+        validateImageUrl(imageUrl);
 
         this.title = title;
         this.description = description;
         this.link = link;
+        this.imageUrl = imageUrl;
     }
 
     public void rename(String newTitle) {
@@ -48,6 +57,11 @@ public class Card {
     public void changeDescription(String newDescription) {
         validateDescription(newDescription);
         this.description = newDescription;
+    }
+
+    public void changeImage(String newImageUrl) {
+        validateImageUrl(newImageUrl);
+        this.imageUrl = newImageUrl;
     }
 
     private void validateTitle(String value) {
@@ -66,22 +80,31 @@ public class Card {
     }
 
     private void validateLink(String value) {
-    if (value == null || value.isBlank()) {
-        throw new IllegalArgumentException("El link no puede estar vacío.");
+        if (value == null || value.isBlank()) {
+            throw new IllegalArgumentException("El link no puede estar vacío.");
+        }
+
+        // Caso 1: URL completa
+        if (value.startsWith("http://") || value.startsWith("https://")) {
+            return;
+        }
+
+        // Caso 2: slug interno (solo letras, números, guiones y barras)
+        if (value.matches("^[a-zA-Z0-9\\-_/]+$")) {
+            return;
+        }
+
+        throw new IllegalArgumentException("El link debe ser una URL válida o un slug interno.");
     }
 
-    // Caso 1: URL completa
-    if (value.startsWith("http://") || value.startsWith("https://")) {
-        return;
+    private void validateImageUrl(String value) {
+        if (value == null || value.isBlank()) {
+            return;
+        }
+        if (!(value.startsWith("http://") || value.startsWith("https://"))) {
+            throw new IllegalArgumentException("La imagen debe ser una URL válida.");
+        }
     }
-
-    // Caso 2: slug interno (solo letras, números, guiones y barras)
-    if (value.matches("^[a-zA-Z0-9\\-_/]+$")) {
-        return;
-    }
-
-    throw new IllegalArgumentException("El link debe ser una URL válida o un slug interno.");
-}
 
 
     public Long getId() {
@@ -98,5 +121,9 @@ public class Card {
 
     public String getLink() {
         return link;
+    }
+
+    public String getImageUrl() {
+        return imageUrl;
     }
 }

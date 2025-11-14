@@ -1,0 +1,57 @@
+# --- Build output ---
+/target/
+*.class
+*.jar
+*.war
+*.ear
+
+# --- Logs & temp files ---
+*.log
+hs_err_pid*
+replay_pid*
+*.tmp
+*.swp
+
+# --- OS / filesystem ---
+.DS_Store
+Thumbs.db
+.Spotlight-V100
+.Trashes
+
+# --- IDEs ---
+# IntelliJ IDEA
+.idea/
+*.iml
+*.iws
+out/
+
+# Eclipse
+.project
+.classpath
+.settings/
+
+# VS Code
+.vscode/
+
+# --- Environment & secrets ---
+.env
+.env.*
+*.env
+*.key
+*.pem
+*.p12
+
+# --- Node / frontend (por si se agrega en el futuro) ---
+node_modules/
+.npm/
+.yarn/
+.DS_Store
+
+# --- Maven / Gradle cache ---
+.mvn/wrapper/maven-wrapper.jar
+.mvn/
+.gradle/
+
+# --- Other ---
+.vscode-test/
+.idea_modules/
