@@ -66,10 +66,23 @@ public class Card {
     }
 
     private void validateLink(String value) {
-        if (!value.startsWith("http")) {
-            throw new IllegalArgumentException("El link debe ser una URL válida.");
-        }
+    if (value == null || value.isBlank()) {
+        throw new IllegalArgumentException("El link no puede estar vacío.");
     }
+
+    // Caso 1: URL completa
+    if (value.startsWith("http://") || value.startsWith("https://")) {
+        return;
+    }
+
+    // Caso 2: slug interno (solo letras, números, guiones y barras)
+    if (value.matches("^[a-zA-Z0-9\\-_/]+$")) {
+        return;
+    }
+
+    throw new IllegalArgumentException("El link debe ser una URL válida o un slug interno.");
+}
+
 
     public Long getId() {
         return id;
