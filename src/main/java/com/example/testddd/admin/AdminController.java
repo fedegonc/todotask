@@ -66,27 +66,30 @@ public class AdminController {
         cardRepository.save(card);
         return "redirect:/admin";
     }
+@PutMapping("/cards/{id}")
+public String updateCard(@PathVariable long id,
+                         @Valid @ModelAttribute("cardForm") CardForm form,
+                         BindingResult bindingResult,
+                         Model model) {
 
-    @PutMapping("/cards/{id}")
-    public String updateCard(@PathVariable long id,
-                             @Valid @ModelAttribute("cardForm") CardForm form,
-                             BindingResult bindingResult,
-                             Model model) {
-        if (bindingResult.hasErrors()) {
-            form.setId(id);
-            model.addAttribute("cards", cardRepository.findAll(Sort.by("title")));
-            model.addAttribute("editing", true);
-            return "admin/index";
-        }
-
-        Card card = cardRepository.findById(id)
-                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Servicio no encontrado"));
-        card.setTitle(form.getTitle());
-        card.setDescription(form.getDescription());
-        card.setLink(form.getLink());
-        cardRepository.save(card);
-        return "redirect:/admin";
+    if (bindingResult.hasErrors()) {
+        form.setId(id);
+        model.addAttribute("cards", cardRepository.findAll(Sort.by("title")));
+        model.addAttribute("editing", true);
+        return "admin/index";
     }
+
+    Card card = cardRepository.findById(id)
+            .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Servicio no encontrado"));
+
+    // >>> Ahora delegamos en la ENTIDAD rica
+    card.rename(form.getTitle());
+    card.changeDescription(form.getDescription());
+    card.changeLink(form.getLink());
+
+    cardRepository.save(card);
+    return "redirect:/admin";
+}
 
     @DeleteMapping("/cards/{id}")
     public String deleteCard(@PathVariable long id) {
