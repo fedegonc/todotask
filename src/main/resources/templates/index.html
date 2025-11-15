@@ -3,8 +3,7 @@
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
       layout:decorate="~{layouts/base}">
 <section layout:fragment="content">
-    <header th:replace="~{fragments/brand :: brand}" class="brand"></header>
+    <section th:replace="~{fragments/hero :: hero}"></section>
     <section th:replace="~{fragments/cards :: cards(${cards})}"></section>
-    <footer th:replace="~{fragments/footer :: footer}"></footer>
 </section>
 </html>

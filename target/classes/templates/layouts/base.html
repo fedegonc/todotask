@@ -11,7 +11,9 @@
     <th:block layout:fragment="head"></th:block>
 </head>
 <body class="site-body" th:classappend=" ${bodyClass}">
-    <div layout:fragment="content"></div>
+    <header th:replace="~{fragments/brand :: brand}"></header>
+    <main layout:fragment="content"></main>
+    <footer th:replace="~{fragments/footer :: footer}"></footer>
     <th:block layout:fragment="footer-scripts"></th:block>
 </body>
 </html>

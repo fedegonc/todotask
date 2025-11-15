@@ -47,7 +47,7 @@ public class AdminController {
     @GetMapping
     public String dashboard(Model model) {
         model.addAttribute("cards", cardRepository.findAll(Sort.by("title")));
-        return "admin/index";
+        return "admin/admin";
     }
 
     @GetMapping("/cards/{id}/editar")
@@ -57,7 +57,7 @@ public class AdminController {
         model.addAttribute("cardForm", CardForm.from(card));
         model.addAttribute("editing", true);
         model.addAttribute("cards", cardRepository.findAll(Sort.by("title")));
-        return "admin/index";
+        return "admin/admin";
     }
 
     @PostMapping("/cards")
@@ -67,7 +67,7 @@ public class AdminController {
         if (bindingResult.hasErrors()) {
             model.addAttribute("cards", cardRepository.findAll(Sort.by("title")));
             model.addAttribute("editing", false);
-            return "admin/index";
+            return "admin/admin";
         }
         String imageUrl = form.getImageUrl();
         try {
@@ -92,7 +92,7 @@ public class AdminController {
             form.setId(id);
             model.addAttribute("cards", cardRepository.findAll(Sort.by("title")));
             model.addAttribute("editing", true);
-            return "admin/index";
+            return "admin/admin";
         }
 
         Card card = cardRepository.findById(id)
