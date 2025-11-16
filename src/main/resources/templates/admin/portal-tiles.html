@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layouts/base}" layout:with="layoutClass='admin-body'">
+<th:block layout:fragment="head">
+    <link rel="stylesheet" th:href="@{/css/admin.css}">
+</th:block>
+<section layout:fragment="content">
+    <div class="admin-wrapper">
+        <header class="admin-header">
+            <h1 th:text="${sectionTitle}">Administrar secciones del portal</h1>
+            <a class="admin-back" th:href="@{/admin}">Volver al panel</a>
+        </header>
+       <div class="admin-grid">
+            <th:block th:replace="~{fragments/admin :: portalTileForm(${portalTileForm}, ${tileEditing})}"></th:block>
+            <th:block th:replace="~{fragments/admin :: portalTileList(${portalTiles})}"></th:block>
+        </div>
+    </div>
+    
+</section>
+</html>

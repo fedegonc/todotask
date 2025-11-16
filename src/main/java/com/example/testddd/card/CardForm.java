@@ -22,19 +22,22 @@ public class CardForm {
 
     private transient MultipartFile imageFile;
 
+    private String sectionKey;
+
     public CardForm() {
     }
 
-    public CardForm(Long id, String title, String description, String link, String imageUrl) {
+    public CardForm(Long id, String title, String description, String link, String imageUrl, String sectionKey) {
         this.id = id;
         this.title = title;
         this.description = description;
         this.link = link;
         this.imageUrl = imageUrl;
+        this.sectionKey = sectionKey;
     }
 
     public static CardForm from(Card card) {
-        return new CardForm(card.getId(), card.getTitle(), card.getDescription(), card.getLink(), card.getImageUrl());
+        return new CardForm(card.getId(), card.getTitle(), card.getDescription(), card.getLink(), card.getImageUrl(), card.getSectionKey());
     }
 
     public Long getId() {
@@ -83,5 +86,13 @@ public class CardForm {
 
     public void setImageFile(MultipartFile imageFile) {
         this.imageFile = imageFile;
+    }
+
+    public String getSectionKey() {
+        return sectionKey;
+    }
+
+    public void setSectionKey(String sectionKey) {
+        this.sectionKey = sectionKey;
     }
 }

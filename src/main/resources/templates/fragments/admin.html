@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+
+<th:block th:fragment="kpi(label, value, path)">
+    <a th:if="${path != null}"
+       class="metric-card metric-card--stat metric-card--link"
+       th:href="${path}">
+        <span class="metric-card__label" th:text="${label}">Servicios publicados</span>
+        <span class="metric-card__value" th:text="${value}">0</span>
+    </a>
+    <div th:unless="${path != null}"
+         class="metric-card metric-card--stat">
+        <span class="metric-card__label" th:text="${label}">Servicios publicados</span>
+        <span class="metric-card__value" th:text="${value}">0</span>
+    </div>
+</th:block>
+
+<th:block th:fragment="activityChart(data)">
+    <div class="metric-card metric-card--chart">
+        <div class="metric-card__header">
+            <span class="metric-card__label">Evolución temporal</span>
+            <span class="metric-card__muted">Últimos 7 días</span>
+        </div>
+        <canvas class="activity-chart" height="140"
+                th:attr="data-points=${data}"></canvas>
+    </div>
+</th:block>
+
+<section class="admin-nav" th:fragment="navGrid(items)">
+    <a class="admin-nav__item" th:each="item : ${items}" th:href="${item.path}">
+        <span class="admin-nav__title" th:text="${item.label}">Servicios</span>
+        <p class="admin-nav__description" th:text="${item.description}">Gestionar contenido</p>
+    </a>
+</section>
+
+<section class="admin-section admin-section--form" th:fragment="portalTileForm(portalTileForm, tileEditing)">
+    <h2 th:text="${tileEditing} ? 'Editar sección del portal' : 'Nueva sección del portal'">Nueva sección del portal</h2>
+    <form class="admin-form"
+          th:action="${tileEditing} ? @{/admin/portal-tiles/{id}(id=${portalTileForm.id})} : @{/admin/portal-tiles}"
+          th:object="${portalTileForm}"
+          method="post"
+          enctype="multipart/form-data">
+        <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}">
+        <input type="hidden" name="_method" value="PUT" th:if="${tileEditing}">
+        <input type="hidden" th:field="*{imageUrl}">
+        <div class="admin-form__group">
+            <label for="tileTitle">Título</label>
+            <input id="tileTitle" type="text" th:field="*{title}" placeholder="Ej. Productos & Servicios">
+            <p class="admin-form__error" th:if="${#fields.hasErrors('title')}" th:errors="*{title}"></p>
+        </div>
+        <div class="admin-form__group">
+            <label for="tileDestination">Destino</label>
+            <input id="tileDestination" type="text" th:field="*{destination}" placeholder="/servicios o https://taller.com/blog">
+            <p class="admin-form__hint">Usa URLs absolutas o rutas que inicien con /</p>
+            <p class="admin-form__error" th:if="${#fields.hasErrors('destination')}" th:errors="*{destination}"></p>
+        </div>
+        <div class="admin-form__group admin-form__group--inline">
+            <div>
+                <label for="tilePosition">Posición</label>
+                <input id="tilePosition" type="number" min="0" th:field="*{position}">
+                <p class="admin-form__error" th:if="${#fields.hasErrors('position')}" th:errors="*{position}"></p>
+            </div>
+            <label class="admin-toggle">
+                <input type="checkbox" th:field="*{enabled}">
+                <span>Visible en el portal</span>
+            </label>
+        </div>
+        <div class="admin-form__group">
+            <label for="tileImageFile">Imagen (opcional)</label>
+            <input id="tileImageFile" type="file" th:field="*{imageFile}" accept="image/*">
+            <p class="admin-form__error" th:if="${#fields.hasErrors('imageFile')}" th:errors="*{imageFile}"></p>
+            <div class="admin-form__preview" th:if="${portalTileForm.imageUrl}">
+                <span>Imagen actual</span>
+                <img th:src="${portalTileForm.imageUrl}" alt="Imagen actual" />
+            </div>
+        </div>
+        <div class="admin-form__actions">
+            <button type="submit" th:text="${tileEditing} ? 'Actualizar' : 'Guardar sección'">Guardar sección</button>
+            <a class="admin-form__cancel" th:if="${tileEditing}" th:href="@{/admin/portal-tiles}">Cancelar</a>
+        </div>
+    </form>
+</section>
+
+<section class="admin-section admin-section--list" th:fragment="portalTileList(portalTiles)">
+    <h2>Secciones actuales</h2>
+    <div class="admin-list" th:if="${portalTiles != null and !portalTiles.isEmpty()}">
+        <div class="admin-list__item" th:each="tile : ${portalTiles}">
+            <div class="admin-list__content">
+                <p class="admin-list__title" th:text="${tile.title}">Título</p>
+                <p class="admin-list__description" th:text="${tile.destination}">Destino</p>
+                <div class="admin-list__meta">
+                    <span class="admin-chip"
+                          th:classappend="${tile.enabled} ? ' admin-chip--success' : ' admin-chip--muted'"
+                          th:text="${tile.enabled} ? 'Activa' : 'Oculta'">Activa</span>
+                    <span class="admin-chip admin-chip--light">Posición <span th:text="${tile.position}">0</span></span>
+                </div>
+            </div>
+            <div class="admin-list__actions">
+                <a class="admin-list__action"
+                   th:href="${tile.destination}"
+                   target="_blank" rel="noopener">Ver</a>
+                <a class="admin-list__action" th:href="@{'/admin/portal-tiles/' + ${tile.id} + '/editar'}">Editar</a>
+                <form th:action="@{'/admin/portal-tiles/' + ${tile.id}}" method="post">
+                    <input type="hidden" name="_method" value="DELETE">
+                    <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}">
+                    <button class="admin-list__delete" type="submit">Eliminar</button>
+                </form>
+            </div>
+        </div>
+    </div>
+    <p class="cards__empty" th:if="${portalTiles == null or portalTiles.isEmpty()}">
+        Todavía no hay secciones destacadas. Añade la primera para guiar a tus visitantes.
+    </p>
+</section>
+
+<section class="admin-section admin-section--form" th:fragment="cardForm(cardForm, editing)">
+    <h2 th:text="${editing} ? 'Editar servicio' : 'Nuevo servicio destacado'">Nuevo servicio destacado</h2>
+    <form class="admin-form"
+          th:action="${editing} ? @{/admin/cards/{id}(id=${cardForm.id})} : @{/admin/cards}"
+          th:object="${cardForm}"
+          method="post"
+          enctype="multipart/form-data">
+        <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}">
+        <input type="hidden" name="_method" value="PUT" th:if="${editing}">
+        <input type="hidden" th:field="*{imageUrl}">
+        <div class="admin-form__group">
+            <label for="title">Título</label>
+            <input id="title" type="text" th:field="*{title}" placeholder="Ej. Tallados en madera">
+            <p class="admin-form__error" th:if="${#fields.hasErrors('title')}" th:errors="*{title}"></p>
+        </div>
+        <div class="admin-form__group">
+            <label for="description">Descripción</label>
+            <textarea id="description" rows="3" th:field="*{description}" placeholder="Breve reseña"></textarea>
+            <p class="admin-form__error" th:if="${#fields.hasErrors('description')}" th:errors="*{description}"></p>
+        </div>
+        <div class="admin-form__group">
+            <label for="link">Enlace</label>
+            <input id="link" type="text" th:field="*{link}" placeholder="/servicios/tallados">
+            <p class="admin-form__error" th:if="${#fields.hasErrors('link')}" th:errors="*{link}"></p>
+        </div>
+        <div class="admin-form__group">
+            <label for="sectionKey">Secci dn (sectionKey)</label>
+            <input id="sectionKey" type="text" th:field="*{sectionKey}" placeholder="Ej. servicios, ofertas, bitacora">
+            <p class="admin-form__hint">Usa una clave simple sin espacios; luego enlaza un PortalTile a /seccion/{clave}.</p>
+        </div>
+        <div class="admin-form__group">
+            <label for="imageFile">Imagen</label>
+            <input id="imageFile" type="file" th:field="*{imageFile}" accept="image/*">
+            <p class="admin-form__error" th:if="${#fields.hasErrors('imageFile')}" th:errors="*{imageFile}"></p>
+            <div class="admin-form__preview" th:if="${cardForm.imageUrl}">
+                <span>Imagen actual</span>
+                <img th:src="${cardForm.imageUrl}" alt="Imagen actual" />
+            </div>
+        </div>
+        <div class="admin-form__actions">
+            <button type="submit" th:text="${editing} ? 'Actualizar' : 'Guardar tarjeta'">Guardar tarjeta</button>
+            <a class="admin-form__cancel" th:if="${editing}" th:href="@{/admin}">Cancelar</a>
+        </div>
+    </form>
+</section>
+
+<section class="admin-section admin-section--list" th:fragment="cardList(cards)">
+    <h2>Servicios actuales</h2>
+    <div class="admin-list" th:if="${cards != null and !cards.isEmpty()}">
+        <div class="admin-list__item" th:each="card : ${cards}">
+            <div class="admin-list__thumbnail" th:if="${card.imageUrl}">
+                <img th:src="${card.imageUrl}" alt="Miniatura" />
+            </div>
+            <div class="admin-list__content">
+                <p class="admin-list__title" th:text="${card.title}">Título</p>
+                <p class="admin-list__description" th:text="${card.description}">Descripción</p>
+            </div>
+            <div class="admin-list__actions">
+                <a class="admin-list__action"
+                   th:href="@{/servicios/{slug}(slug=${card.link.startsWith('/') ? card.link.substring(1) : card.link})}"
+                   target="_blank" rel="noopener">Ver</a>
+                <a class="admin-list__action" th:href="@{'/admin/cards/' + ${card.id} + '/editar'}">Editar</a>
+                <form th:action="@{'/admin/cards/' + ${card.id}}" method="post">
+                    <input type="hidden" name="_method" value="DELETE">
+                    <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}">
+                    <button class="admin-list__delete" type="submit">Eliminar</button>
+                </form>
+            </div>
+        </div>
+    </div>
+    <p class="cards__empty" th:if="${cards == null or cards.isEmpty()}">Todavía no hay servicios publicados.</p>
+</section>
+
+</html>

@@ -1,7 +1,6 @@
 package com.example.testddd.home;
 
-import com.example.testddd.card.CardRepository;
-import org.springframework.data.domain.Sort;
+import com.example.testddd.portal.PortalTileService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -9,15 +8,21 @@ import org.springframework.web.bind.annotation.GetMapping;
 @Controller
 public class HomeController {
 
-    private final CardRepository cardRepository;
+    private final PortalTileService portalTileService;
 
-    public HomeController(CardRepository cardRepository) {
-        this.cardRepository = cardRepository;
+    public HomeController(PortalTileService portalTileService) {
+        this.portalTileService = portalTileService;
     }
 
     @GetMapping({"/", "/index"})
     public String home(Model model) {
-        model.addAttribute("cards", cardRepository.findAll(Sort.by("title")));
+        model.addAttribute("portalTiles", portalTileService.listEnabledTiles());
         return "index";
+    }
+
+    @GetMapping("/bitacora")
+    public String bitacora() {
+        // Usamos la misma lógica de secciones dinámicas para la bitácora
+        return "forward:/seccion/bitacora";
     }
 }

@@ -96,7 +96,8 @@ body {
 
 .brand {
     display: flex;
-    align-items: flex-start;
+    align-items: center;
+    justify-content: space-between;
     padding: 2rem 3rem;
 }
 
@@ -106,6 +107,34 @@ body {
     font-weight: 400;
     letter-spacing: 0.05em;
     color: #1f2d3d;
+}
+
+.brand__admin {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    font-size: 0.95rem;
+}
+
+.brand__admin-text {
+    color: rgba(45, 52, 54, 0.8);
+}
+
+.brand__admin-name {
+    font-weight: 600;
+}
+
+.brand__logout {
+    border: 1px solid rgba(43, 53, 60, 0.3);
+    background-color: #ffffff;
+    padding: 0.35rem 0.9rem;
+    border-radius: 999px;
+    font-size: 0.9rem;
+    cursor: pointer;
+}
+
+.brand__logout:hover {
+    background-color: rgba(43, 53, 60, 0.04);
 }
 
 .hero {
@@ -187,6 +216,82 @@ body {
     color: rgba(45, 52, 54, 0.85);
 }
 
+/* Service list (secciones de servicios) */
+
+.service-list {
+    max-width: 960px;
+    margin: 0 auto;
+    padding: 3rem 2.5rem 4rem;
+    display: grid;
+    gap: 2rem;
+}
+
+.service-list__header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    gap: 1rem;
+    border-bottom: 1px solid rgba(43, 53, 60, 0.15);
+    padding-bottom: 1rem;
+}
+
+.service-list__header h1 {
+    margin: 0;
+    font-size: 2rem;
+    font-weight: 600;
+    letter-spacing: 0.04em;
+}
+
+.service-list__back {
+    color: #4c6ef5;
+    text-decoration: none;
+    font-weight: 600;
+    font-size: 0.95rem;
+}
+
+.service-list__back:hover {
+    text-decoration: underline;
+}
+
+.service-list__grid {
+    display: grid;
+    gap: 1.5rem;
+}
+
+.service-card {
+    border: 1px solid rgba(43, 53, 60, 0.18);
+    border-radius: 0;
+    padding: 1.5rem 1.75rem;
+    background-color: #ffffff;
+    display: grid;
+    gap: 0.75rem;
+}
+
+.service-card__title {
+    margin: 0;
+    font-size: 1.2rem;
+    font-weight: 600;
+    letter-spacing: 0.03em;
+}
+
+.service-card__description {
+    margin: 0;
+    font-size: 0.98rem;
+    line-height: 1.6;
+    color: rgba(45, 52, 54, 0.9);
+}
+
+.service-card__link {
+    color: #4c6ef5;
+    font-weight: 600;
+    text-decoration: none;
+    font-size: 0.95rem;
+}
+
+.service-card__link:hover {
+    text-decoration: underline;
+}
+
 .site-footer {
     background-color: #111;
     color: #f1f1f1;
@@ -200,4 +305,81 @@ body {
 .site-footer__text {
     margin: 0;
     font-size: 0.9rem;
+}
+
+@media (max-width: 768px) {
+    .brand {
+        padding: 1.5rem 1.5rem;
+        justify-content: center;
+    }
+
+    .brand__name {
+        font-size: 1.7rem;
+        text-align: center;
+    }
+
+    .hero__content {
+        padding: 2.5rem 1.5rem;
+    }
+
+    .hero__headline {
+        font-size: 2.1rem;
+        text-align: center;
+    }
+
+    .cards {
+        padding: 2rem 1.5rem;
+    }
+
+    .cards__grid {
+        gap: 1.25rem;
+    }
+
+    .cards__empty {
+        padding: 1.5rem 1.5rem;
+    }
+
+    .service-detail {
+        padding: 2.5rem 1.5rem 3rem;
+    }
+
+    .service-detail__header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 1rem;
+    }
+
+    .site-footer {
+        padding: 1rem 1.5rem;
+        justify-content: center;
+        text-align: center;
+    }
+
+    .site-footer__text {
+        text-align: center;
+    }
+}
+
+@media (max-width: 480px) {
+    .brand__name {
+        font-size: 1.5rem;
+        letter-spacing: 0.03em;
+    }
+
+    .hero__headline {
+        font-size: 1.8rem;
+        letter-spacing: 0.06em;
+    }
+
+    .card {
+        padding: 1.25rem;
+    }
+
+    .card__title {
+        font-size: 1.1rem;
+    }
+
+    .card__description {
+        font-size: 0.9rem;
+    }
 }

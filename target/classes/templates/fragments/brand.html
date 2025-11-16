@@ -1,3 +1,16 @@
-<header th:fragment="brand" class="brand">
+<header th:fragment="brand" class="brand"
+        xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
     <span class="brand__name">Federico Goncalvez</span>
+
+    <div class="brand__admin" sec:authorize="isAuthenticated()">
+        <span class="brand__admin-text">
+            Bienvenido,
+            <span class="brand__admin-name" sec:authentication="name">admin</span>
+        </span>
+        <form th:action="@{/logout}" method="post">
+            <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}">
+            <button type="submit" class="brand__logout">Salir</button>
+        </form>
+    </div>
+
 </header>

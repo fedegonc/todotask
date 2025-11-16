@@ -1,5 +1,6 @@
 package com.example.testddd.card;
 
+import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -16,6 +17,13 @@ public class CardController {
 
     public CardController(CardRepository cardRepository) {
         this.cardRepository = cardRepository;
+    }
+
+    @GetMapping
+    public String list(Model model) {
+        model.addAttribute("services", cardRepository.findAll(Sort.by("title")));
+        model.addAttribute("sectionTitle", "Servicios");
+        return "service/list";
     }
 
     @GetMapping("/{slug}")

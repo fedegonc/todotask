@@ -1,13 +1,12 @@
-<section th:fragment="cards(cardList)" class="cards">
-    <div class="cards__grid" th:if="${cardList != null and !cardList.isEmpty()}">
-        <a class="card" th:each="card : ${cardList}"
-           th:href="@{/servicios/{slug}(slug=${card.link.startsWith('/') ? card.link.substring(1) : card.link})}">
-            <div class="card__image-wrapper" th:if="${card.imageUrl}">
-                <img class="card__image" th:src="${card.imageUrl}" th:alt="${card.title}">
-            </div>
-            <h3 class="card__title" th:text="${card.title}">Título</h3>
-            <p class="card__description" th:text="${card.description}">Descripción</p>
+<section th:fragment="cards(portalTiles)" class="cards cards--featured">
+    <div class="cards__grid cards__grid--featured" th:if="${portalTiles != null and !portalTiles.isEmpty()}">
+        <a class="card card--headline"
+           th:each="tile : ${portalTiles}"
+           th:href="${tile.destination}">
+            <h3 class="card__title card__title--headline" th:text="${tile.title}">Sección</h3>
         </a>
     </div>
-    <p class="cards__empty" th:if="${cardList == null or cardList.isEmpty()}">Próximamente más servicios.</p>
+    <p class="cards__empty" th:if="${portalTiles == null or portalTiles.isEmpty()}">
+        Próximamente nuevas secciones.
+    </p>
 </section>

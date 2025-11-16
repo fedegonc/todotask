@@ -26,6 +26,9 @@ public class Card {
     @Column(length = 512)
     private String imageUrl;
 
+    @Column(length = 64)
+    private String sectionKey;
+
     protected Card() {}
 
     public Card(String title, String description, String link) {
@@ -62,6 +65,14 @@ public class Card {
     public void changeImage(String newImageUrl) {
         validateImageUrl(newImageUrl);
         this.imageUrl = newImageUrl;
+    }
+
+    public void assignToSection(String newSectionKey) {
+        if (newSectionKey == null || newSectionKey.isBlank()) {
+            this.sectionKey = null;
+            return;
+        }
+        this.sectionKey = newSectionKey.trim();
     }
 
     private void validateTitle(String value) {
@@ -125,5 +136,9 @@ public class Card {
 
     public String getImageUrl() {
         return imageUrl;
+    }
+
+    public String getSectionKey() {
+        return sectionKey;
     }
 }

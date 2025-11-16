@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layouts/base}">
+<head>
+    <title layout:fragment="title">Bitácora del Taller | Federico Goncalvez</title>
+</head>
+<section layout:fragment="content" class="bitacora-page">
+    <header class="bitacora-page__header">
+        <h1>Bitácora del Taller</h1>
+        <p>Historias, procesos y experimentos detrás de cada proyecto.</p>
+        <a class="bitacora-page__back" th:href="@{/}">Volver al inicio</a>
+    </header>
+
+    <article class="bitacora-entry">
+        <h2>En construcción</h2>
+        <p>Pronto compartiremos notas de proyectos, bocetos y aprendizajes del taller. Mientras tanto,
+            seguí explorando nuestros <a th:href="@{/servicios}">servicios</a>.</p>
+    </article>
+</section>
+</html>

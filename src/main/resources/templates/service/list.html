@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layouts/base}">
+<head>
+    <title layout:fragment="title"
+           th:text="${sectionTitle != null} ? sectionTitle + ' | Federico Goncalvez' : 'Servicios | Federico Goncalvez'">
+        Servicios | Federico Goncalvez
+    </title>
+</head>
+<section layout:fragment="content" class="service-list">
+    <header class="service-list__header">
+        <h1 th:text="${sectionTitle != null} ? sectionTitle : 'Servicios'">Servicios</h1>
+        <a class="service-list__back" th:href="@{/}">Volver al inicio</a>
+    </header>
+
+    <div class="service-list__grid" th:if="${services != null and !services.isEmpty()}">
+        <article class="service-card" th:each="service : ${services}">
+            <h2 class="service-card__title" th:text="${service.title}">Servicio</h2>
+            <p class="service-card__description" th:text="${service.description}">Descripción</p>
+            <a class="service-card__link"
+               th:href="@{/servicios/{slug}(slug=${service.link.startsWith('/') ? service.link.substring(1) : service.link})}">
+                Ver detalles →
+            </a>
+        </article>
+    </div>
+
+    <p class="service-list__empty" th:if="${services == null or services.isEmpty()}"
+       th:text="${sectionTitle != null} ? 'Esta sección aún no tiene servicios.' : 'No hay servicios publicados todavía.'">
+        No hay servicios publicados todavía.
+    </p>
+</section>
+</html>

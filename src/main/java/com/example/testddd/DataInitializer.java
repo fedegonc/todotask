@@ -2,6 +2,8 @@ package com.example.testddd;
 
 import com.example.testddd.card.Card;
 import com.example.testddd.card.CardRepository;
+import com.example.testddd.portal.PortalTile;
+import com.example.testddd.portal.PortalTileRepository;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -29,7 +31,22 @@ public class DataInitializer {
                         new Card("Páginas web", "Sitios modernos y responsivos para presentar servicios y captar clientes.", "paginas-web"),
                         new Card("Asistencia de redes sociales", "Gestión integral de contenidos y campañas para crecer en plataformas digitales.", "asistencia-redes")
                 );
+
+                defaults.forEach(card -> card.assignToSection("servicios"));
                 defaults.forEach(cardRepository::save);
+            }
+        };
+    }
+
+    @Bean
+    CommandLineRunner seedPortalTiles(PortalTileRepository portalTileRepository) {
+        return args -> {
+            if (portalTileRepository.count() == 0) {
+                List<PortalTile> tiles = List.of(
+                        PortalTile.create("Productos & Servicios", "/seccion/servicios", 0),
+                        PortalTile.create("Bitácora del Taller", "/bitacora", 1)
+                );
+                tiles.forEach(portalTileRepository::save);
             }
         };
     }
